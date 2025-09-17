@@ -1,5 +1,6 @@
 # AI-powered FRA Atlas & WebGIS-based Decision Support System (DSS)
 
+
 A comprehensive platform to digitize, analyze, and visualize Forest Rights Act (FRA) implementation data. It leverages AI, Satellite Imagery, and WebGIS to track claims and recommend government schemes for tribal and forest-dwelling communities.
 
 ## 🚀 Features
