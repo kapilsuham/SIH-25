@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  ml-training:
+    build:
+      context: .
+      dockerfile: Dockerfile.ml
+    container_name: fra-ml-training
+    volumes:
+      # Mount the code directory
+      - .:/app
+      # Mount data directories for easy access
+      - ./data/raw:/app/data/raw
+      - ./data/processed:/app/data/processed
+      - ./models:/app/models
+    ports:
+      # Expose Jupyter notebook port
+      - "8888:8888"
+      # Expose TensorBoard port if needed
+      - "6006:6006"
+    environment:
+      - PYTHONPATH=/app
+      - NVIDIA_VISIBLE_DEVICES=all  # Enable GPU access if available
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
+
+  # Optional: Add a database service if your ML models need direct database access
+  ml-db:
+    image: postgres:13
+    container_name: fra-ml-db
+    environment:
+      POSTGRES_DB: fra_ml
+      POSTGRES_USER: mluser
+      POSTGRES_PASSWORD: mlpassword
+    volumes:
+      - ml_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+volumes:
+  ml_postgres_data:

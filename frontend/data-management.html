@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Management - FRA Atlas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c5530;
+            --secondary: #4a7c59;
+            --accent: #8fb996;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --purple: #8b5cf6;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--gray-50);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--gradient);
+            color: white;
+            padding: 0;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .nav-item {
+            margin-bottom: 4px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            border-right: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-right-color: var(--accent);
+        }
+
+        .nav-link i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 24px;
+        }
+
+        /* Enhanced Header */
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            gap: 8px;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Data Overview Dashboard */
+        .data-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .overview-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .overview-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--gray-100);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .status-warning {
+            background: var(--warning);
+        }
+
+        .status-error {
+            background: var(--danger);
+        }
+
+        .overview-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .overview-title {
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+        }
+
+        .overview-subtitle {
+            color: var(--gray-500);
+            font-size: 0.75rem;
+        }
+
+        /* Data Sources Section */
+        .data-sources {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .source-card {
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 20px;
+            transition: var(--transition);
+            background: var(--gray-50);
+        }
+
+        .source-card:hover {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .source-info h3 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .source-type {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            background: var(--gray-200);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .source-status {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-syncing {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .source-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .source-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            border-radius: 6px;
+        }
+
+        /* Upload/Import Section */
+        .upload-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .upload-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: var(--gray-100);
+            padding: 4px;
+            border-radius: 10px;
+        }
+
+        .upload-tab {
+            flex: 1;
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+
+        .upload-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-300);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(44, 85, 48, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            font-size: 1.125rem;
+            color: var(--dark);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .upload-subtitle {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+        }
+
+        .supported-formats {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .format-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--gray-100);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        .format-icon {
+            color: var(--primary);
+        }
+
+        /* Data Quality Monitoring */
+        .quality-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .quality-card {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            background: var(--gray-50);
+            transition: var(--transition);
+        }
+
+        .quality-card:hover {
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .quality-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .score-excellent {
+            color: var(--success);
+        }
+
+        .score-good {
+            color: var(--info);
+        }
+
+        .score-fair {
+            color: var(--warning);
+        }
+
+        .score-poor {
+            color: var(--danger);
+        }
+
+        .quality-label {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 12px;
+        }
+
+        .quality-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .quality-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .quality-description {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* Database Tables Management */
+        .tables-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .tables-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            width: 250px;
+        }
+
+        .tables-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .table-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            transition: var(--transition);
+            background: var(--gray-50);
+        }
+
+        .table-item:hover {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .table-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .table-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .table-details h4 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .table-details p {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .table-stats {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .stat-group {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Backup & Recovery */
+        .backup-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .backup-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .backup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .backup-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .backup-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--gray-50);
+        }
+
+        .backup-info h4 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .backup-info p {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .backup-size {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .backup-progress {
+            margin-top: 20px;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: var(--transition);
+            width: 0%;
+        }
+
+        /* API Management */
+        .api-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+        }
+
+        .api-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .api-card {
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 20px;
+            background: var(--gray-50);
+            transition: var(--transition);
+        }
+
+        .api-card:hover {
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .api-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .api-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .api-version {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            background: var(--gray-200);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        .api-description {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .api-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .api-metric {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .metric-number {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .metric-text {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .data-overview {
+                grid-template-columns: 1fr;
+            }
+            .sources-grid {
+                grid-template-columns: 1fr;
+            }
+            .quality-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .backup-section {
+                grid-template-columns: 1fr;
+            }
+            .api-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-tree"></i> FRA Atlas</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="fra-claims.html" class="nav-link">
+                        <i class="fas fa-file-contract"></i>
+                        <span class="nav-text">FRA Claims</span>
+                        <span class="badge">156</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="scheme-recommendations.html" class="nav-link">
+                        <i class="fas fa-hands-helping"></i>
+                        <span class="nav-text">Scheme Recommendations</span>
+                        <span class="badge">42</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="data-management.html" class="nav-link active">
+                        <i class="fas fa-database"></i>
+                        <span class="nav-text">Data Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Enhanced Header -->
+            <header class="header">
+                <div class="header-top">
+                    <div>
+                        <h1 class="page-title">Data Management</h1>
+                        <div class="breadcrumb">
+                            <a href="dashboard.html">Dashboard</a>
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Data Management</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-sync"></i> Sync All Sources
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-shield-alt"></i> Backup Now
+                        </button>
+                        <button class="btn">
+                            <i class="fas fa-cogs"></i> System Settings
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Data Overview Dashboard -->
+            <div class="data-overview">
+                <div class="overview-card">
+                    <div class="overview-header">
+                        <div class="overview-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="overview-value">4.2 GB</div>
+                    <div class="overview-title">Total Data Storage</div>
+                    <div class="overview-subtitle">Across all databases and repositories</div>
+                </div>
+
+                <div class="overview-card">
+                    <div class="overview-header">
+                        <div class="overview-icon" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="overview-value">12</div>
+                    <div class="overview-title">Active Data Sources</div>
+                    <div class="overview-subtitle">Connected and synchronized</div>
+                </div>
+
+                <div class="overview-card">
+                    <div class="overview-header">
+                        <div class="overview-icon" style="background: rgba(245, 158, 11, 0.1); color: var(--warning);">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="status-indicator status-warning"></div>
+                    </div>
+                    <div class="overview-value">5 min</div>
+                    <div class="overview-title">Last Sync</div>
+                    <div class="overview-subtitle">All sources synchronized</div>
+                </div>
+
+                <div class="overview-card">
+                    <div class="overview-header">
+                        <div class="overview-icon" style="background: rgba(59, 130, 246, 0.1); color: var(--info);">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="overview-value">98.7%</div>
+                    <div class="overview-title">Data Quality Score</div>
+                    <div class="overview-subtitle">Overall system health</div>
+                </div>
+
+                <div class="overview-card">
+                    <div class="overview-header">
+                        <div class="overview-icon" style="background: rgba(139, 92, 246, 0.1); color: var(--purple);">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="overview-value">1,547</div>
+                    <div class="overview-title">Records Updated</div>
+                    <div class="overview-subtitle">In the last 24 hours</div>
+                </div>
+            </div>
+
+            <!-- Data Sources Management -->
+            <div class="data-sources">
+                <h2 class="section-title">Data Sources & Integrations</h2>
+                <div class="sources-grid">
+                    <div class="source-card">
+                        <div class="source-header">
+                            <div class="source-info">
+                                <h3>FRA Claims Database</h3>
+                                <span class="source-type">Primary Database</span>
+                            </div>
+                            <span class="source-status status-active">Active</span>
+                        </div>
+                        <div class="source-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value">1,247</div>
+                                <div class="metric-label">Records</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">2.1 MB</div>
+                                <div class="metric-label">Size</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">99.8%</div>
+                                <div class="metric-label">Uptime</div>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: var(--gray-600); margin-bottom: 16px;">
+                            Primary repository for all FRA claim submissions and processing data
+                        </p>
+                        <div class="source-actions">
+                            <button class="btn btn-small">View Details</button>
+                            <button class="btn btn-outline btn-small">Sync Now</button>
+                        </div>
+                    </div>
+
+                    <div class="source-card">
+                        <div class="source-header">
+                            <div class="source-info">
+                                <h3>Forest Department API</h3>
+                                <span class="source-type">External API</span>
+                            </div>
+                            <span class="source-status status-syncing">Syncing</span>
+                        </div>
+                        <div class="source-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value">892</div>
+                                <div class="metric-label">Forest Blocks</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">45.7 MB</div>
+                                <div class="metric-label">Size</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">95.2%</div>
+                                <div class="metric-label">Uptime</div>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: var(--gray-600); margin-bottom: 16px;">
+                            State forest department data including compartment boundaries and coverage
+                        </p>
+                        <div class="source-actions">
+                            <button class="btn btn-small">View Details</button>
+                            <button class="btn btn-outline btn-small" disabled>Syncing...</button>
+                        </div>
+                    </div>
+
+                    <div class="source-card">
+                        <div class="source-header">
+                            <div class="source-info">
+                                <h3>Tribal Affairs Ministry</h3>
+                                <span class="source-type">Government Portal</span>
+                            </div>
+                            <span class="source-status status-active">Active</span>
+                        </div>
+                        <div class="source-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value">3,456</div>
+                                <div class="metric-label">Communities</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">12.3 MB</div>
+                                <div class="metric-label">Size</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">97.8%</div>
+                                <div class="metric-label">Uptime</div>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: var(--gray-600); margin-bottom: 16px;">
+                            Tribal community data and demographic information from central registry
+                        </p>
+                        <div class="source-actions">
+                            <button class="btn btn-small">View Details</button>
+                            <button class="btn btn-outline btn-small">Sync Now</button>
+                        </div>
+                    </div>
+
+                    <div class="source-card">
+                        <div class="source-header">
+                            <div class="source-info">
+                                <h3>ISRO Bhuvan Satellite Data</h3>
+                                <span class="source-type">Geospatial API</span>
+                            </div>
+                            <span class="source-status status-error">Connection Error</span>
+                        </div>
+                        <div class="source-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value">2,134</div>
+                                <div class="metric-label">Image Tiles</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">1.8 GB</div>
+                                <div class="metric-label">Size</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">78.5%</div>
+                                <div class="metric-label">Uptime</div>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.875rem; color: var(--gray-600); margin-bottom: 16px;">
+                            Satellite imagery and geospatial data for land classification and monitoring
+                        </p>
+                        <div class="source-actions">
+                            <button class="btn btn-small btn-danger">Troubleshoot</button>
+                            <button class="btn btn-outline btn-small">Retry Connection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload/Import Section -->
+            <div class="upload-section">
+                <h2 class="section-title">Data Import & Upload</h2>
+                <div class="upload-tabs">
+                    <button class="upload-tab active" data-tab="file">File Upload</button>
+                    <button class="upload-tab" data-tab="api">API Import</button>
+                    <button class="upload-tab" data-tab="bulk">Bulk Operations</button>
+                </div>
+                
+                <div id="file-upload" class="upload-content">
+                    <div class="upload-area" onclick="document.getElementById('file-input').click()">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="upload-text">Drag and drop files here or click to browse</div>
+                        <div class="upload-subtitle">Upload CSV, Excel, JSON, or GeoJSON files to import data</div>
+                        <input type="file" id="file-input" style="display: none;" multiple accept=".csv,.xlsx,.xls,.json,.geojson">
+                    </div>
+                    <div class="supported-formats">
+                        <div class="format-item">
+                            <i class="fas fa-file-csv format-icon"></i>
+                            CSV Files
+                        </div>
+                        <div class="format-item">
+                            <i class="fas fa-file-excel format-icon"></i>
+                            Excel Files
+                        </div>
+                        <div class="format-item">
+                            <i class="fas fa-file-code format-icon"></i>
+                            JSON Files
+                        </div>
+                        <div class="format-item">
+                            <i class="fas fa-map format-icon"></i>
+                            GeoJSON
+                        </div>
+                        <div class="format-item">
+                            <i class="fas fa-file-pdf format-icon"></i>
+                            PDF Documents
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Quality Monitoring -->
+            <div class="quality-section">
+                <h2 class="section-title">Data Quality Monitoring</h2>
+                <div class="quality-grid">
+                    <div class="quality-card">
+                        <div class="quality-score score-excellent">96%</div>
+                        <div class="quality-label">Completeness</div>
+                        <div class="quality-bar">
+                            <div class="quality-fill" style="width: 96%; background: var(--success);"></div>
+                        </div>
+                        <div class="quality-description">Very few missing data points</div>
+                    </div>
+
+                    <div class="quality-card">
+                        <div class="quality-score score-good">91%</div>
+                        <div class="quality-label">Accuracy</div>
+                        <div class="quality-bar">
+                            <div class="quality-fill" style="width: 91%; background: var(--info);"></div>
+                        </div>
+                        <div class="quality-description">High data validation scores</div>
+                    </div>
+
+                    <div class="quality-card">
+                        <div class="quality-score score-excellent">94%</div>
+                        <div class="quality-label">Consistency</div>
+                        <div class="quality-bar">
+                            <div class="quality-fill" style="width: 94%; background: var(--success);"></div>
+                        </div>
+                        <div class="quality-description">Minimal format inconsistencies</div>
+                    </div>
+
+                    <div class="quality-card">
+                        <div class="quality-score score-fair">78%</div>
+                        <div class="quality-label">Timeliness</div>
+                        <div class="quality-bar">
+                            <div class="quality-fill" style="width: 78%; background: var(--warning);"></div>
+                        </div>
+                        <div class="quality-description">Some data sync delays</div>
+                    </div>
+
+                    <div class="quality-card">
+                        <div class="quality-score score-good">89%</div>
+                        <div class="quality-label">Validity</div>
+                        <div class="quality-bar">
+                            <div class="quality-fill" style="width: 89%; background: var(--info);"></div>
+                        </div>
+                        <div class="quality-description">Good business rule compliance</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database Tables Management -->
+            <div class="tables-section">
+                <div class="tables-header">
+                    <h2 class="section-title">Database Tables</h2>
+                    <div class="search-filter">
+                        <input type="text" class="search-input" placeholder="Search tables..." id="table-search">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+                <div class="tables-grid">
+                    <div class="table-item">
+                        <div class="table-info">
+                            <div class="table-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="table-details">
+                                <h4>fra_claims</h4>
+                                <p>Individual and community FRA claims data with processing status</p>
+                            </div>
+                        </div>
+                        <div class="table-stats">
+                            <div class="stat-group">
+                                <div class="stat-value">1,247</div>
+                                <div class="stat-label">Records</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">2.1 MB</div>
+                                <div class="stat-label">Size</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">99.2%</div>
+                                <div class="stat-label">Health</div>
+                            </div>
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-small">Export</button>
+                            <button class="btn btn-outline btn-small">Optimize</button>
+                            <button class="btn btn-outline btn-small">Backup</button>
+                        </div>
+                    </div>
+
+                    <div class="table-item">
+                        <div class="table-info">
+                            <div class="table-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="table-details">
+                                <h4>tribal_communities</h4>
+                                <p>Comprehensive tribal and forest dwelling communities information</p>
+                            </div>
+                        </div>
+                        <div class="table-stats">
+                            <div class="stat-group">
+                                <div class="stat-value">3,456</div>
+                                <div class="stat-label">Records</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">5.8 MB</div>
+                                <div class="stat-label">Size</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">97.8%</div>
+                                <div class="stat-label">Health</div>
+                            </div>
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-small">Export</button>
+                            <button class="btn btn-outline btn-small">Optimize</button>
+                            <button class="btn btn-outline btn-small">Backup</button>
+                        </div>
+                    </div>
+
+                    <div class="table-item">
+                        <div class="table-info">
+                            <div class="table-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <div class="table-details">
+                                <h4>forest_compartments</h4>
+                                <p>Forest compartment boundaries and classification data</p>
+                            </div>
+                        </div>
+                        <div class="table-stats">
+                            <div class="stat-group">
+                                <div class="stat-value">892</div>
+                                <div class="stat-label">Records</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">45.7 MB</div>
+                                <div class="stat-label">Size</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">95.4%</div>
+                                <div class="stat-label">Health</div>
+                            </div>
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-small">Export</button>
+                            <button class="btn btn-outline btn-small">Optimize</button>
+                            <button class="btn btn-outline btn-small">Backup</button>
+                        </div>
+                    </div>
+
+                    <div class="table-item">
+                        <div class="table-info">
+                            <div class="table-icon">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <div class="table-details">
+                                <h4>government_schemes</h4>
+                                <p>Central and state government schemes database with eligibility criteria</p>
+                            </div>
+                        </div>
+                        <div class="table-stats">
+                            <div class="stat-group">
+                                <div class="stat-value">247</div>
+                                <div class="stat-label">Records</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">890 KB</div>
+                                <div class="stat-label">Size</div>
+                            </div>
+                            <div class="stat-group">
+                                <div class="stat-value">98.9%</div>
+                                <div class="stat-label">Health</div>
+                            </div>
+                        </div>
+                        <div class="table-actions">
+                            <button class="btn btn-small">Export</button>
+                            <button class="btn btn-outline btn-small">Optimize</button>
+                            <button class="btn btn-outline btn-small">Backup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backup & Recovery -->
+            <div class="backup-section">
+                <div class="backup-card">
+                    <div class="backup-header">
+                        <h2 class="section-title">Backup Management</h2>
+                        <button class="btn" onclick="createBackup()">
+                            <i class="fas fa-plus"></i> Create Backup
+                        </button>
+                    </div>
+                    <div class="backup-list">
+                        <div class="backup-item">
+                            <div class="backup-info">
+                                <h4>Full System Backup</h4>
+                                <p>January 15, 2024 - 3:45 AM</p>
+                            </div>
+                            <div class="backup-size">4.2 GB</div>
+                        </div>
+                        <div class="backup-item">
+                            <div class="backup-info">
+                                <h4>Claims Database Backup</h4>
+                                <p>January 14, 2024 - 11:30 PM</p>
+                            </div>
+                            <div class="backup-size">234 MB</div>
+                        </div>
+                        <div class="backup-item">
+                            <div class="backup-info">
+                                <h4>Weekly Incremental</h4>
+                                <p>January 13, 2024 - 2:15 AM</p>
+                            </div>
+                            <div class="backup-size">156 MB</div>
+                        </div>
+                        <div class="backup-item">
+                            <div class="backup-info">
+                                <h4>Configuration Backup</h4>
+                                <p>January 12, 2024 - 6:00 PM</p>
+                            </div>
+                            <div class="backup-size">12 MB</div>
+                        </div>
+                    </div>
+                    <div class="backup-progress" id="backup-progress">
+                        <div class="progress-header">
+                            <span>Creating backup...</span>
+                            <span id="backup-percent">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="backup-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backup-card">
+                    <div class="backup-header">
+                        <h2 class="section-title">Export Options</h2>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-cog"></i> Configure
+                        </button>
+                    </div>
+                    <div class="backup-list">
+                        <div class="backup-item" style="cursor: pointer;" onclick="exportData('pdf')">
+                            <div class="backup-info">
+                                <h4>Comprehensive Report (PDF)</h4>
+                                <p>Export formatted reports with charts and analysis</p>
+                            </div>
+                            <button class="btn btn-small">Export</button>
+                        </div>
+                        <div class="backup-item" style="cursor: pointer;" onclick="exportData('csv')">
+                            <div class="backup-info">
+                                <h4>Raw Data Export (CSV)</h4>
+                                <p>Export raw tabular data in comma-separated format</p>
+                            </div>
+                            <button class="btn btn-small">Export</button>
+                        </div>
+                        <div class="backup-item" style="cursor: pointer;" onclick="exportData('geojson')">
+                            <div class="backup-info">
+                                <h4>Spatial Data (GeoJSON)</h4>
+                                <p>Export geographic and spatial data for GIS applications</p>
+                            </div>
+                            <button class="btn btn-small">Export</button>
+                        </div>
+                        <div class="backup-item" style="cursor: pointer;" onclick="exportData('api')">
+                            <div class="backup-info">
+                                <h4>API Data Dump</h4>
+                                <p>Export structured data via REST API endpoints</p>
+                            </div>
+                            <button class="btn btn-small">Export</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Management -->
+            <div class="api-section">
+                <h2 class="section-title">API Management & Integration</h2>
+                <div class="api-grid">
+                    <div class="api-card">
+                        <div class="api-header">
+                            <div class="api-title">FRA Claims API</div>
+                            <div class="api-version">v2.1</div>
+                        </div>
+                        <div class="api-description">
+                            RESTful API for FRA claims data access, submission, and status tracking
+                        </div>
+                        <div class="api-metrics">
+                            <div class="api-metric">
+                                <div class="metric-number">1,250</div>
+                                <div class="metric-text">Requests/hour</div>
+                            </div>
+                            <div class="api-metric">
+                                <div class="metric-number">99.8%</div>
+                                <div class="metric-text">Uptime</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-small">Documentation</button>
+                            <button class="btn btn-outline btn-small">Test API</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-header">
+                            <div class="api-title">Geospatial Services</div>
+                            <div class="api-version">v1.8</div>
+                        </div>
+                        <div class="api-description">
+                            WMS/WFS services for forest boundary data and satellite imagery access
+                        </div>
+                        <div class="api-metrics">
+                            <div class="api-metric">
+                                <div class="metric-number">850</div>
+                                <div class="metric-text">Requests/hour</div>
+                            </div>
+                            <div class="api-metric">
+                                <div class="metric-number">97.2%</div>
+                                <div class="metric-text">Uptime</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-small">Documentation</button>
+                            <button class="btn btn-outline btn-small">Test API</button>
+                        </div>
+                    </div>
+
+                    <div class="api-card">
+                        <div class="api-header">
+                            <div class="api-title">Analytics Dashboard</div>
+                            <div class="api-version">v3.0</div>
+                        </div>
+                        <div class="api-description">
+                            Real-time analytics and reporting API with advanced filtering capabilities
+                        </div>
+                        <div class="api-metrics">
+                            <div class="api-metric">
+                                <div class="metric-number">450</div>
+                                <div class="metric-text">Requests/hour</div>
+                            </div>
+                            <div class="api-metric">
+                                <div class="metric-number">99.5%</div>
+                                <div class="metric-text">Uptime</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-small">Documentation</button>
+                            <button class="btn btn-outline btn-small">Test API</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Enhanced JavaScript functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUploadArea();
+            initializeTabSwitching();
+            initializeSearch();
+            updateSystemMetrics();
+        });
+
+        function initializeUploadArea() {
+            const uploadArea = document.querySelector('.upload-area');
+            const fileInput = document.getElementById('file-input');
+
+            // Handle file input change
+            fileInput.addEventListener('change', function(e) {
+                handleFiles(e.target.files);
+            });
+
+            // Handle drag and drop
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                console.log(`Processing ${files.length} file(s):`);
+                Array.from(files).forEach(file => {
+                    console.log(`- ${file.name} (${file.size} bytes)`);
+                });
+                
+                // Simulate file processing
+                simulateFileUpload(files);
+            }
+        }
+
+        function simulateFileUpload(files) {
+            const uploadArea = document.querySelector('.upload-area');
+            const originalContent = uploadArea.innerHTML;
+            
+            uploadArea.innerHTML = `
+                <div class="upload-icon">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+                <div class="upload-text">Processing ${files.length} file(s)...</div>
+                <div class="upload-subtitle">Validating and importing data</div>
+            `;
+            
+            setTimeout(() => {
+                uploadArea.innerHTML = `
+                    <div class="upload-icon" style="color: var(--success);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="upload-text">Upload Successful!</div>
+                    <div class="upload-subtitle">${files.length} file(s) processed successfully</div>
+                `;
+                
+                setTimeout(() => {
+                    uploadArea.innerHTML = originalContent;
+                }, 3000);
+            }, 2000);
+        }
+
+        function initializeTabSwitching() {
+            const tabs = document.querySelectorAll('.upload-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const tabType = this.dataset.tab;
+                    console.log(`Switched to ${tabType} tab`);
+                    
+                    // Update upload area based on tab
+                    updateUploadArea(tabType);
+                });
+            });
+        }
+
+        function updateUploadArea(tabType) {
+            const uploadArea = document.querySelector('.upload-area');
+            const uploadText = uploadArea.querySelector('.upload-text');
+            const uploadSubtitle = uploadArea.querySelector('.upload-subtitle');
+            
+            switch(tabType) {
+                case 'file':
+                    uploadText.textContent = 'Drag and drop files here or click to browse';
+                    uploadSubtitle.textContent = 'Upload CSV, Excel, JSON, or GeoJSON files to import data';
+                    break;
+                case 'api':
+                    uploadText.textContent = 'Configure API endpoint for data import';
+                    uploadSubtitle.textContent = 'Enter API URL, authentication, and data mapping settings';
+                    break;
+                case 'bulk':
+                    uploadText.textContent = 'Bulk data operations and transformations';
+                    uploadSubtitle.textContent = 'Process multiple datasets with custom transformation rules';
+                    break;
+            }
+        }
+
+        function initializeSearch() {
+            const searchInput = document.getElementById('table-search');
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const tableItems = document.querySelectorAll('.table-item');
+                
+                tableItems.forEach(item => {
+                    const tableName = item.querySelector('h4').textContent.toLowerCase();
+                    const tableDesc = item.querySelector('p').textContent.toLowerCase();
+                    
+                    if (tableName.includes(searchTerm) || tableDesc.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function updateSystemMetrics() {
+            // Simulate real-time metric updates
+            const metrics = [
+                { selector: '.overview-value', values: ['4.2 GB', '12', '5 min', '98.7%', '1,547'] },
+                { selector: '.metric-value', update: true },
+                { selector: '.stat-value', update: true }
+            ];
+
+            setInterval(() => {
+                // Simulate small changes in metrics
+                document.querySelectorAll('.metric-value').forEach(metric => {
+                    const currentValue = parseInt(metric.textContent);
+                    if (!isNaN(currentValue)) {
+                        const change = Math.floor(Math.random() * 10) - 5; // -5 to +5 change
+                        metric.textContent = Math.max(0, currentValue + change);
+                    }
+                });
+            }, 30000); // Update every 30 seconds
+        }
+
+        function createBackup() {
+            const progressDiv = document.getElementById('backup-progress');
+            const progressFill = document.getElementById('backup-fill');
+            const progressPercent = document.getElementById('backup-percent');
+            
+            progressDiv.style.display = 'block';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        progressDiv.style.display = 'none';
+                        alert('Backup created successfully!');
+                        
+                        // Add new backup to list
+                        const backupList = document.querySelector('.backup-list');
+                        const newBackup = document.createElement('div');
+                        newBackup.className = 'backup-item';
+                        newBackup.innerHTML = `
+                            <div class="backup-info">
+                                <h4>Manual System Backup</h4>
+                                <p>${new Date().toLocaleString()}</p>
+                            </div>
+                            <div class="backup-size">4.2 GB</div>
+                        `;
+                        backupList.insertBefore(newBackup, backupList.firstChild);
+                    }, 1000);
+                }
+                
+                progressFill.style.width = progress + '%';
+                progressPercent.textContent = Math.round(progress) + '%';
+            }, 200);
+        }
+
+        function exportData(format) {
+            const formats = {
+                pdf: 'Generating comprehensive PDF report...',
+                csv: 'Preparing CSV data export...',
+                geojson: 'Creating GeoJSON spatial data export...',
+                api: 'Setting up API data dump...'
+            };
+            
+            alert(formats[format] || 'Preparing export...');
+            console.log(`Exporting data in ${format} format`);
+            
+            // Simulate export process
+            setTimeout(() => {
+                alert(`${format.toUpperCase()} export completed! Download link sent to your email.`);
+            }, 2000);
+        }
+
+        // Data source management
+        document.querySelectorAll('.source-card .btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.textContent.trim();
+                const sourceName = this.closest('.source-card').querySelector('h3').textContent;
+                
+                if (action === 'Sync Now') {
+                    syncDataSource(sourceName);
+                } else if (action === 'View Details') {
+                    showSourceDetails(sourceName);
+                } else if (action === 'Troubleshoot') {
+                    troubleshootSource(sourceName);
+                }
+            });
+        });
+
+        function syncDataSource(sourceName) {
+            console.log(`Syncing ${sourceName}...`);
+            alert(`Initiating sync for ${sourceName}. This may take a few minutes.`);
+        }
+
+        function showSourceDetails(sourceName) {
+            console.log(`Showing details for ${sourceName}`);
+            alert(`Detailed information for ${sourceName} would be displayed in a modal.`);
+        }
+
+        function troubleshootSource(sourceName) {
+            console.log(`Troubleshooting ${sourceName}...`);
+            alert(`Running diagnostic tests for ${sourceName}. Check logs for detailed information.`);
+        }
+
+        // Table management
+        document.querySelectorAll('.table-item .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.textContent.trim();
+                const tableName = this.closest('.table-item').querySelector('h4').textContent;
+                
+                if (action === 'Export') {
+                    exportTable(tableName);
+                } else if (action === 'Optimize') {
+                    optimizeTable(tableName);
+                } else if (action === 'Backup') {
+                    backupTable(tableName);
+                }
+            });
+        });
+
+        function exportTable(tableName) {
+            alert(`Exporting ${tableName} table data. Download will start shortly.`);
+        }
+
+        function optimizeTable(tableName) {
+            alert(`Optimizing ${tableName} table. This may improve query performance.`);
+        }
+
+        function backupTable(tableName) {
+            alert(`Creating backup for ${tableName} table.`);
+        }
+
+        // Auto-refresh functionality
+        function startAutoRefresh() {
+            setInterval(() => {
+                console.log('Auto-refreshing data management metrics...');
+                updateSystemMetrics();
+            }, 300000); // Refresh every 5 minutes
+        }
+
+        startAutoRefresh();
+    </script>
+</body>
+</html>

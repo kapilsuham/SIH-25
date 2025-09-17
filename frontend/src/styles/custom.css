@@ -1,0 +1,149 @@
+/* Place any extra custom classes if you need them */
+.card {
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 8px;
+   border: 1px solid #ddd;
+
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+::-webkit-scrollbar-corner {
+  background: #f3f4f6;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment,
+::-webkit-scrollbar-button:horizontal:start:decrement,
+::-webkit-scrollbar-button:horizontal:end:increment {
+  display: block;
+  height: 10px;
+  width: 10px;
+  background: #d1d5db;
+}
+::-webkit-scrollbar-button:hover {
+  background: #9ca3af;
+}
+
+
+::-webkit-scrollbar-button:disabled {
+  display: none;
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement {
+  border-bottom: 5px solid #6b7280;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+
+::-webkit-scrollbar-button:vertical:end:increment {
+  border-top: 5px solid #6b7280;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+::-webkit-scrollbar-button:horizontal:start:decrement {
+  border-right: 5px solid #6b7280;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+::-webkit-scrollbar-button:horizontal:end:increment {
+  border-left: 5px solid #6b7280;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+::-webkit-scrollbar-button:hover:vertical:start:decrement,
+::-webkit-scrollbar-button:hover:vertical:end:increment {
+  border-bottom: 5px solid #374151;
+  border-top: 5px solid #374151;
+}::-webkit-scrollbar-button:hover:horizontal:start:decrement,
+::-webkit-scrollbar-button:hover:horizontal:end:increment {     
+    border-right: 5px solid #374151;
+    border-left: 5px solid #374151;
+    }
+/* Simple scrollbar & selection polish */
+::selection {
+  background: #10b98122;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-corner {
+  background: #f3f4f6;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment,      
+::-webkit-scrollbar-button:horizontal:start:decrement,
+::-webkit-scrollbar-button:horizontal:end:increment {
+  display: block;
+  height: 10px;
+  width: 10px;
+  background: #d1d5db;
+}
+::-webkit-scrollbar-button:hover {
+  background: #9ca3af;
+}
+::-webkit-scrollbar-button:disabled {
+  display: none;
+}
+::-webkit-scrollbar-button:vertical:start:decrement {
+  border-bottom: 5px solid #6b7280;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+::-webkit-scrollbar-button:vertical:end:increment {
+  border-top: 5px solid #6b7280;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+::-webkit-scrollbar-button:horizontal:start:decrement {
+  border-right: 5px solid #6b7280;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+::-webkit-scrollbar-button:horizontal:end:increment {
+  border-left: 5px solid #6b7280;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+::-webkit-scrollbar-button:hover:vertical:start:decrement,
+::-webkit-scrollbar-button:hover:vertical:end:increment {
+  border-bottom: 5px solid #374151;
+  border-top: 5px solid #374151;
+}   
+::-webkit-scrollbar-button:hover:horizontal:start:decrement,
+::-webkit-scrollbar-button:hover:horizontal:end:increment {     
+    border-right: 5px solid #374151;
+    border-left: 5px solid #374151;
+    }
+
+/* End of scrollbar & selection polish */

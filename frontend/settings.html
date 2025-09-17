@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - FRA Atlas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c5530;
+            --secondary: #4a7c59;
+            --accent: #8fb996;
+            --light: #f8f9fa;
+            --dark: #1a1a1a;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --purple: #8b5cf6;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background-color: var(--gray-50);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--gradient);
+            color: white;
+            padding: 0;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-header h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 16px 0;
+        }
+
+        .nav-item {
+            margin-bottom: 4px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            border-right: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-right-color: var(--accent);
+        }
+
+        .nav-link i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 24px;
+        }
+
+        /* Enhanced Header */
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            gap: 8px;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Settings Layout */
+        .settings-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+        }
+
+        /* Settings Navigation */
+        .settings-nav {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+        }
+
+        .nav-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .settings-nav-list {
+            list-style: none;
+        }
+
+        .settings-nav-item {
+            margin-bottom: 8px;
+        }
+
+        .settings-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: var(--gray-600);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: var(--transition);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .settings-nav-link:hover,
+        .settings-nav-link.active {
+            background: rgba(44, 85, 48, 0.1);
+            color: var(--primary);
+        }
+
+        .settings-nav-link i {
+            margin-right: 12px;
+            width: 16px;
+            font-size: 1rem;
+        }
+
+        /* Settings Content */
+        .settings-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+
+        .content-section {
+            display: none;
+            padding: 32px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Form Elements */
+        .form-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 0.875rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 12px 16px;
+            border: 1.5px solid var(--gray-300);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            transition: var(--transition);
+            background: white;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 85, 48, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-help {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 6px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* Profile Section */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 32px;
+            padding: 24px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .profile-avatar {
+            position: relative;
+        }
+
+        .avatar-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        .avatar-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .avatar-upload:hover {
+            background: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .profile-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .profile-info p {
+            color: var(--gray-600);
+            margin-bottom: 8px;
+        }
+
+        .profile-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .toggle-group:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-info h4 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .toggle-info p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+        }
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-300);
+            transition: var(--transition);
+            border-radius: 28px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toggle-input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+
+        .toggle-input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Security Items */
+        .security-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .security-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            background: var(--gray-50);
+            transition: var(--transition);
+        }
+
+        .security-item:hover {
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .security-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .security-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .security-details h4 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .security-details p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .security-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .status-enabled {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-disabled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        /* API Keys Section */
+        .api-keys {
+            display: grid;
+            gap: 16px;
+        }
+
+        .api-key-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            background: white;
+        }
+
+        .api-key-info h4 {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .api-key-info p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .api-key-value {
+            font-family: 'Courier New', monospace;
+            background: var(--gray-100);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--gray-700);
+            margin: 8px 0;
+        }
+
+        .api-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            border-radius: 6px;
+        }
+
+        /* Notification Groups */
+        .notification-groups {
+            display: grid;
+            gap: 24px;
+        }
+
+        .notification-group {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .group-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .group-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        /* Danger Zone */
+        .danger-zone {
+            border: 2px solid var(--danger);
+            border-radius: 12px;
+            padding: 24px;
+            background: rgba(239, 68, 68, 0.05);
+            margin-top: 32px;
+        }
+
+        .danger-zone h3 {
+            color: var(--danger);
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .danger-zone p {
+            color: var(--gray-600);
+            margin-bottom: 20px;
+        }
+
+        .danger-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Activity Log */
+        .activity-log {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--gray-100);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .activity-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+            .settings-nav {
+                position: static;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .danger-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Enhanced Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-tree"></i> FRA Atlas</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="fra-claims.html" class="nav-link">
+                        <i class="fas fa-file-contract"></i>
+                        <span class="nav-text">FRA Claims</span>
+                        <span class="badge">156</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="analytics.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="nav-text">Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="scheme-recommendations.html" class="nav-link">
+                        <i class="fas fa-hands-helping"></i>
+                        <span class="nav-text">Scheme Recommendations</span>
+                        <span class="badge">42</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="data-management.html" class="nav-link">
+                        <i class="fas fa-database"></i>
+                        <span class="nav-text">Data Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link active">
+                        <i class="fas fa-cog"></i>
+                        <span class="nav-text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Enhanced Header -->
+            <header class="header">
+                <div class="header-top">
+                    <div>
+                        <h1 class="page-title">Settings</h1>
+                        <div class="breadcrumb">
+                            <a href="dashboard.html">Dashboard</a>
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Settings</span>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-outline" id="reset-btn">
+                            <i class="fas fa-undo"></i> Reset to Defaults
+                        </button>
+                        <button class="btn" id="save-btn">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Settings Layout -->
+            <div class="settings-layout">
+                <!-- Settings Navigation -->
+                <div class="settings-nav">
+                    <h3 class="nav-title">Settings</h3>
+                    <ul class="settings-nav-list">
+                        <li class="settings-nav-item">
+                            <a href="#profile" class="settings-nav-link active" data-section="profile">
+                                <i class="fas fa-user"></i>
+                                Profile
+                            </a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="#account" class="settings-nav-link" data-section="account">
+                                <i class="fas fa-user-cog"></i>
+                                Account
+                            </a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="#notifications" class="settings-nav-link" data-section="notifications">
+                                <i class="fas fa-bell"></i>
+                                Notifications
+                            </a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="#security" class="settings-nav-link" data-section="security">
+                                <i class="fas fa-shield-alt"></i>
+                                Security
+                            </a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="#privacy" class="settings-nav-link" data-section="privacy">
+                                <i class="fas fa-lock"></i>
+                                Privacy
+                            </a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="#integrations" class="settings-nav-link" data-section="integrations">
+                                <i class="fas fa-plug"></i>
+                                Integrations
+                            </a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="#system" class="settings-nav-link" data-section="system">
+                                <i class="fas fa-cogs"></i>
+                                System
+                            </a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="#activity" class="settings-nav-link" data-section="activity">
+                                <i class="fas fa-history"></i>
+                                Activity Log
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Settings Content -->
+                <div class="settings-content">
+                    <!-- Profile Section -->
+                    <div id="profile-section" class="content-section active">
+                        <div class="section-header">
+                            <h2 class="section-title">Profile Information</h2>
+                            <p class="section-description">Update your personal information and profile settings to personalize your FRA Atlas experience.</p>
+                        </div>
+
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <div class="avatar-image" id="avatar-display">AG</div>
+                                <div class="avatar-upload" onclick="document.getElementById('avatar-input').click()">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <input type="file" id="avatar-input" style="display: none;" accept="image/*">
+                            </div>
+                            <div class="profile-info">
+                                <h3>Abhay Goyal</h3>
+                                <p>Administrator • FRA Atlas System</p>
+                                <div class="profile-status">
+                                    <i class="fas fa-check-circle"></i>
+                                    Verified Account
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">First Name</label>
+                                    <input type="text" class="form-input" value="Abhay" placeholder="Enter your first name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Last Name</label>
+                                    <input type="text" class="form-input" value="Goyal" placeholder="Enter your last name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" value="abhay.goyal@fra.gov.in" placeholder="Enter your email">
+                                <div class="form-help">This email will be used for important system notifications.</div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-input" value="+91 98765 43210" placeholder="Enter your phone number">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Employee ID</label>
+                                    <input type="text" class="form-input" value="FRA-ADM-2024-001" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Department</label>
+                                    <select class="form-select">
+                                        <option value="forest">Forest Department</option>
+                                        <option value="tribal" selected>Tribal Affairs</option>
+                                        <option value="revenue">Revenue Department</option>
+                                        <option value="admin">Administration</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Designation</label>
+                                    <input type="text" class="form-input" value="System Administrator" placeholder="Enter your designation">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Office Location</label>
+                                    <input type="text" class="form-input" value="Ranchi, Jharkhand" placeholder="Enter your office location">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Jurisdiction</label>
+                                    <select class="form-select">
+                                        <option value="state">State Level</option>
+                                        <option value="district">District Level</option>
+                                        <option value="block">Block Level</option>
+                                        <option value="national" selected>National Level</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Bio</label>
+                                <textarea class="form-textarea" placeholder="Tell us about yourself...">Experienced administrator with over 10 years in forest rights management and tribal affairs. Specialized in digital governance and community engagement.</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Section -->
+                    <div id="account-section" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Account Preferences</h2>
+                            <p class="section-description">Customize your account settings, language preferences, and regional settings.</p>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Language</label>
+                                    <select class="form-select">
+                                        <option value="en" selected>English</option>
+                                        <option value="hi">हिंदी (Hindi)</option>
+                                        <option value="bn">বাংলা (Bengali)</option>
+                                        <option value="or">ଓଡ଼ିଆ (Odia)</option>
+                                        <option value="asm">অসমীয়া (Assamese)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Time Zone</label>
+                                    <select class="form-select">
+                                        <option value="Asia/Kolkata" selected>Asia/Kolkata (IST)</option>
+                                        <option value="UTC">UTC</option>
+                                        <option value="Asia/Dubai">Asia/Dubai</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Date Format</label>
+                                    <select class="form-select">
+                                        <option value="dd/mm/yyyy" selected>DD/MM/YYYY</option>
+                                        <option value="mm/dd/yyyy">MM/DD/YYYY</option>
+                                        <option value="yyyy-mm-dd">YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Number Format</label>
+                                    <select class="form-select">
+                                        <option value="indian" selected>Indian (1,23,456.78)</option>
+                                        <option value="international">International (123,456.78)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Dark Mode</h4>
+                                    <p>Use dark theme for better visibility in low light conditions</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input" id="dark-mode">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Compact Layout</h4>
+                                    <p>Display more information in less space</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input" id="compact-layout" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Auto-save</h4>
+                                    <p>Automatically save form data as you type</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input" id="auto-save" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div id="notifications-section" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Notification Preferences</h2>
+                            <p class="section-description">Choose how and when you want to receive notifications about system activities and updates.</p>
+                        </div>
+
+                        <div class="notification-groups">
+                            <div class="notification-group">
+                                <h3 class="group-title">
+                                    <div class="group-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    Email Notifications
+                                </h3>
+                                
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>New Claim Submissions</h4>
+                                        <p>Get notified when new FRA claims are submitted in your jurisdiction</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>Claim Status Updates</h4>
+                                        <p>Receive updates when claim status changes or requires action</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>Weekly Summary Reports</h4>
+                                        <p>Get weekly digest of system activities and key metrics</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>System Maintenance</h4>
+                                        <p>Notifications about scheduled maintenance and system updates</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="notification-group">
+                                <h3 class="group-title">
+                                    <div class="group-icon">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                    SMS Notifications
+                                </h3>
+                                
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>Urgent Alerts</h4>
+                                        <p>Critical system alerts and emergency notifications</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>Deadline Reminders</h4>
+                                        <p>Reminders for upcoming deadlines and due dates</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="notification-group">
+                                <h3 class="group-title">
+                                    <div class="group-icon">
+                                        <i class="fas fa-browser"></i>
+                                    </div>
+                                    Browser Notifications
+                                </h3>
+                                
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>Real-time Updates</h4>
+                                        <p>Instant browser notifications for real-time system events</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="toggle-group">
+                                    <div class="toggle-info">
+                                        <h4>Sound Alerts</h4>
+                                        <p>Play notification sounds for important alerts</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" class="toggle-input">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div id="security-section" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Security Settings</h2>
+                            <p class="section-description">Manage your account security, access controls, and authentication methods.</p>
+                        </div>
+
+                        <div class="security-grid">
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-key"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Two-Factor Authentication</h4>
+                                        <p>Add an extra layer of security to your account using authenticator app</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span class="security-status status-enabled">Enabled</span>
+                                    <button class="btn btn-outline btn-small">Manage</button>
+                                </div>
+                            </div>
+
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Password</h4>
+                                        <p>Last changed 30 days ago • Strong password detected</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline btn-small">Change Password</button>
+                            </div>
+
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Login Sessions</h4>
+                                        <p>Manage your active login sessions across all devices</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline btn-small">View Sessions</button>
+                            </div>
+
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-history"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Login History</h4>
+                                        <p>View your recent login activities and detect suspicious access</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline btn-small">View History</button>
+                            </div>
+
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Account Recovery</h4>
+                                        <p>Set up account recovery options and backup codes</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline btn-small">Configure</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Section -->
+                    <div id="privacy-section" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Privacy & Data</h2>
+                            <p class="section-description">Control your privacy settings and manage how your data is used within the system.</p>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Usage Analytics</h4>
+                                    <p>Allow system to collect usage analytics for performance improvements</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Activity Logging</h4>
+                                    <p>Log your activities for audit and security purposes</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Profile Visibility</h4>
+                                    <p>Make your profile visible to other system users in your organization</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Data Sharing</h4>
+                                    <p>Share aggregated data with partner organizations for research</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Cookies</h4>
+                                    <p>Allow functional cookies for enhanced user experience</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Integrations Section -->
+                    <div id="integrations-section" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">System Integrations</h2>
+                            <p class="section-description">Manage external system connections and API integrations.</p>
+                        </div>
+
+                        <div class="security-grid">
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Forest Department Database</h4>
+                                        <p>Integration with state forest department databases for land records</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span class="security-status status-enabled">Connected</span>
+                                    <button class="btn btn-outline btn-small">Configure</button>
+                                </div>
+                            </div>
+
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-satellite"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>ISRO Bhuvan Services</h4>
+                                        <p>Satellite imagery and geospatial data integration for land mapping</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span class="security-status status-disabled">Disconnected</span>
+                                    <button class="btn btn-outline btn-small">Connect</button>
+                                </div>
+                            </div>
+
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Email Service (SMTP)</h4>
+                                        <p>Email notifications and communication service configuration</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span class="security-status status-enabled">Connected</span>
+                                    <button class="btn btn-outline btn-small">Configure</button>
+                                </div>
+                            </div>
+
+                            <div class="security-item">
+                                <div class="security-info">
+                                    <div class="security-icon">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="security-details">
+                                        <h4>Analytics Platform</h4>
+                                        <p>External analytics and business intelligence platform integration</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <span class="security-status status-enabled">Connected</span>
+                                    <button class="btn btn-outline btn-small">Configure</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 32px;">
+                            <h3 style="margin-bottom: 16px; color: var(--dark);">API Keys</h3>
+                            <div class="api-keys">
+                                <div class="api-key-item">
+                                    <div class="api-key-info">
+                                        <h4>Production API Key</h4>
+                                        <p>Used for production data access and external integrations</p>
+                                        <div class="api-key-value">fra_prod_api_key_2024_xxxxxxxxxx</div>
+                                    </div>
+                                    <div class="api-actions">
+                                        <button class="btn btn-outline btn-small">Copy</button>
+                                        <button class="btn btn-outline btn-small">Regenerate</button>
+                                    </div>
+                                </div>
+
+                                <div class="api-key-item">
+                                    <div class="api-key-info">
+                                        <h4>Development API Key</h4>
+                                        <p>Used for testing and development purposes</p>
+                                        <div class="api-key-value">fra_dev_api_key_2024_xxxxxxxxxx</div>
+                                    </div>
+                                    <div class="api-actions">
+                                        <button class="btn btn-outline btn-small">Copy</button>
+                                        <button class="btn btn-outline btn-small">Regenerate</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Section -->
+                    <div id="system-section" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">System Configuration</h2>
+                            <p class="section-description">Advanced system settings and administrative configurations.</p>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">API Rate Limit (requests/minute)</label>
+                                    <input type="number" class="form-input" value="1000" min="100" max="10000">
+                                    <div class="form-help">Configure API rate limiting for external integrations</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Session Timeout (minutes)</label>
+                                    <select class="form-select">
+                                        <option value="30">30 minutes</option>
+                                        <option value="60" selected>1 hour</option>
+                                        <option value="120">2 hours</option>
+                                        <option value="240">4 hours</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Max File Upload Size (MB)</label>
+                                    <input type="number" class="form-input" value="50" min="1" max="500">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Backup Frequency</label>
+                                    <select class="form-select">
+                                        <option value="daily" selected>Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Debug Mode</h4>
+                                    <p>Enable detailed logging for troubleshooting and development</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Maintenance Mode</h4>
+                                    <p>Put system in maintenance mode for updates and repairs</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-group">
+                                <div class="toggle-info">
+                                    <h4>Auto-backup</h4>
+                                    <p>Automatically create system backups based on schedule</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" class="toggle-input" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Log Section -->
+                    <div id="activity-section" class="content-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Activity Log</h2>
+                            <p class="section-description">View your recent system activities and access history.</p>
+                        </div>
+
+                        <div class="activity-log">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Successful login from new device</div>
+                                    <div class="activity-time">2 hours ago • IP: 192.168.1.100</div>
+                                </div>
+                                <div class="activity-badge badge-success">Success</div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Profile information updated</div>
+                                    <div class="activity-time">1 day ago</div>
+                                </div>
+                                <div class="activity-badge badge-info">Update</div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Two-factor authentication enabled</div>
+                                    <div class="activity-time">3 days ago</div>
+                                </div>
+                                <div class="activity-badge badge-success">Security</div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Password changed successfully</div>
+                                    <div class="activity-time">1 week ago</div>
+                                </div>
+                                <div class="activity-badge badge-success">Security</div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Failed login attempt detected</div>
+                                    <div class="activity-time">1 week ago • IP: 203.0.113.42</div>
+                                </div>
+                                <div class="activity-badge badge-warning">Warning</div>
+                            </div>
+
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Data export completed</div>
+                                    <div class="activity-time">2 weeks ago</div>
+                                </div>
+                                <div class="activity-badge badge-info">Export</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="danger-zone">
+                        <h3>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Danger Zone
+                        </h3>
+                        <p>These actions are irreversible and may affect system functionality. Please proceed with extreme caution.</p>
+                        
+                        <div class="danger-actions">
+                            <button class="btn btn-danger" onclick="confirmAction('export-data')">
+                                <i class="fas fa-download"></i> Export All Data
+                            </button>
+                            <button class="btn btn-danger" onclick="confirmAction('reset-settings')">
+                                <i class="fas fa-undo"></i> Reset All Settings
+                            </button>
+                            <button class="btn btn-danger" onclick="confirmAction('delete-account')">
+                                <i class="fas fa-trash"></i> Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Enhanced JavaScript functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSettingsNavigation();
+            initializeFormHandlers();
+            initializeToggleSwitches();
+            setupAutoSave();
+        });
+
+        function initializeSettingsNavigation() {
+            const navLinks = document.querySelectorAll('.settings-nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active navigation
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content section
+                    const sectionId = this.dataset.section + '-section';
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                    
+                    // Update URL hash
+                    window.location.hash = this.dataset.section;
+                });
+            });
+
+            // Handle initial hash
+            const hash = window.location.hash.substr(1);
+            if (hash) {
+                const targetLink = document.querySelector(`[data-section="${hash}"]`);
+                if (targetLink) {
+                    targetLink.click();
+                }
+            }
+        }
+
+        function initializeFormHandlers() {
+            // Avatar upload
+            document.getElementById('avatar-input').addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const avatarDisplay = document.getElementById('avatar-display');
+                        avatarDisplay.style.backgroundImage = `url(${e.target.result})`;
+                        avatarDisplay.style.backgroundSize = 'cover';
+                        avatarDisplay.style.backgroundPosition = 'center';
+                        avatarDisplay.textContent = '';
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // Save button
+            document.getElementById('save-btn').addEventListener('click', function() {
+                saveSettings();
+            });
+
+            // Reset button
+            document.getElementById('reset-btn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to reset all settings to their default values? This action cannot be undone.')) {
+                    resetSettings();
+                }
+            });
+        }
+
+        function initializeToggleSwitches() {
+            const toggles = document.querySelectorAll('.toggle-input');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const settingName = this.id || 'setting';
+                    const isEnabled = this.checked;
+                    
+                    console.log(`${settingName}: ${isEnabled ? 'Enabled' : 'Disabled'}`);
+                    
+                    // Handle specific toggle actions
+                    handleToggleChange(settingName, isEnabled);
+                    
+                    // Auto-save if enabled
+                    if (document.getElementById('auto-save')?.checked) {
+                        autoSaveSettings();
+                    }
+                });
+            });
+        }
+
+        function handleToggleChange(settingName, isEnabled) {
+            switch(settingName) {
+                case 'dark-mode':
+                    if (isEnabled) {
+                        document.body.classList.add('dark-theme');
+                    } else {
+                        document.body.classList.remove('dark-theme');
+                    }
+                    break;
+                case 'compact-layout':
+                    if (isEnabled) {
+                        document.body.classList.add('compact-layout');
+                    } else {
+                        document.body.classList.remove('compact-layout');
+                    }
+                    break;
+                case 'maintenance-mode':
+                    if (isEnabled) {
+                        alert('System will enter maintenance mode. All users will be notified.');
+                    }
+                    break;
+                default:
+                    // Handle other settings
+                    break;
+            }
+        }
+
+        function setupAutoSave() {
+            const formInputs = document.querySelectorAll('.form-input, .form-select, .form-textarea');
+            
+            formInputs.forEach(input => {
+                input.addEventListener('input', debounce(function() {
+                    if (document.getElementById('auto-save')?.checked) {
+                        autoSaveSettings();
+                    }
+                }, 1000));
+            });
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function saveSettings() {
+            const saveBtn = document.getElementById('save-btn');
+            const originalText = saveBtn.innerHTML;
+            
+            // Show loading state
+            saveBtn.innerHTML = '<div class="spinner"></div> Saving...';
+            saveBtn.disabled = true;
+            
+            // Simulate save operation
+            setTimeout(() => {
+                saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                saveBtn.style.background = 'var(--success)';
+                
+                setTimeout(() => {
+                    saveBtn.innerHTML = originalText;
+                    saveBtn.style.background = '';
+                    saveBtn.disabled = false;
+                }, 2000);
+            }, 1500);
+            
+            console.log('Settings saved successfully');
+        }
+
+        function autoSaveSettings() {
+            console.log('Auto-saving settings...');
+            // Implement auto-save logic here
+        }
+
+        function resetSettings() {
+            // Reset all form inputs to default values
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.value = input.getAttribute('data-default') || '';
+            });
+            
+            document.querySelectorAll('.toggle-input').forEach(toggle => {
+                toggle.checked = toggle.getAttribute('data-default') === 'true';
+            });
+            
+            console.log('Settings reset to defaults');
+        }
+
+        function confirmAction(action) {
+            const actions = {
+                'export-data': {
+                    title: 'Export All Data',
+                    message: 'This will export all your data including personal information, claims, and system settings. Continue?',
+                    action: () => {
+                        alert('Data export initiated. You will receive a download link via email.');
+                    }
+                },
+                'reset-settings': {
+                    title: 'Reset All Settings',
+                    message: 'This will reset all your settings to default values. All customizations will be lost. Continue?',
+                    action: () => {
+                        resetSettings();
+                        alert('All settings have been reset to defaults.');
+                    }
+                },
+                'delete-account': {
+                    title: 'Delete Account',
+                    message: 'This will permanently delete your account and all associated data. This action cannot be undone. Are you absolutely sure?',
+                    action: () => {
+                        const confirmation = prompt('Type "DELETE" to confirm account deletion:');
+                        if (confirmation === 'DELETE') {
+                            alert('Account deletion process initiated. Please contact administrator to complete this action.');
+                        } else {
+                            alert('Account deletion cancelled.');
+                        }
+                    }
+                }
+            };
+            
+            const actionConfig = actions[action];
+            if (actionConfig && confirm(`${actionConfig.title}\n\n${actionConfig.message}`)) {
+                actionConfig.action();
+            }
+        }
+
+        // Security actions
+        document.querySelectorAll('.security-item .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.textContent.trim();
+                const securityType = this.closest('.security-item').querySelector('h4').textContent;
+                
+                console.log(`Security action: ${action} for ${securityType}`);
+                
+                switch(action) {
+                    case 'Manage':
+                        alert(`Opening ${securityType} management interface`);
+                        break;
+                    case 'Change Password':
+                        alert('Password change form would open here');
+                        break;
+                    case 'View Sessions':
+                        alert('Active sessions list would be displayed');
+                        break;
+                    case 'View History':
+                        alert('Login history would be shown');
+                        break;
+                    case 'Configure':
+                        alert(`${securityType} configuration panel would open`);
+                        break;
+                    default:
+                        alert(`${action} functionality would be implemented here`);
+                }
+            });
+        });
+
+        // API key actions
+        document.querySelectorAll('.api-actions .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.textContent.trim();
+                const keyType = this.closest('.api-key-item').querySelector('h4').textContent;
+                
+                if (action === 'Copy') {
+                    const keyValue = this.closest('.api-key-item').querySelector('.api-key-value').textContent;
+                    navigator.clipboard.writeText(keyValue).then(() => {
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                        }, 2000);
+                    });
+                } else if (action === 'Regenerate') {
+                    if (confirm(`Are you sure you want to regenerate the ${keyType}? The old key will become invalid.`)) {
+                        alert(`${keyType} regenerated successfully. Please update your integrations.`);
+                    }
+                }
+            });
+        });
+
+        // Integration actions
+        document.querySelectorAll('#integrations-section .btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.textContent.trim();
+                const integration = this.closest('.security-item').querySelector('h4').textContent;
+                
+                if (action === 'Configure') {
+                    alert(`Opening configuration for ${integration}`);
+                } else if (action === 'Connect') {
+                    alert(`Connecting to ${integration}...`);
+                }
+            });
+        });
+
+        // Auto-refresh activity log
+        function refreshActivityLog() {
+            console.log('Refreshing activity log...');
+            // In a real app, this would fetch new activity data
+        }
+
+        // Refresh activity log every 5 minutes
+        setInterval(refreshActivityLog, 300000);
+    </script>
+</body>
+</html>
